@@ -2,6 +2,13 @@
 
 ## [Unreleased](https://github.com/openfga/python-sdk/compare/v0.9.7...HEAD)
 
+### Added
+- feat: comprehensive example demonstrating `on_duplicate` and `on_missing` conflict options for write operations
+- docs: added documentation for write conflict options in README
+- The SDK supports OpenFGA v1.10.0+ conflict options:
+  - `on_duplicate` for handling duplicate tuple writes (ERROR or IGNORE)
+  - `on_missing` for handling deletes of non-existent tuples (ERROR or IGNORE)
+
 ### [0.9.7](https://github.com/openfga/python-sdk/compare/v0.9.6...0.9.7) (2025-10-06)
 
 - feat: `headers` configuration property (#233)
