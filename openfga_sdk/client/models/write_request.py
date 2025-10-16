@@ -70,7 +70,9 @@ class ClientWriteRequest:
         if keys is None:
             return None
 
-        return WriteRequestWrites(tuple_keys=keys, on_duplicate=on_duplicate)
+        if on_duplicate is not None:
+            return WriteRequestWrites(tuple_keys=keys, on_duplicate=on_duplicate)
+        return WriteRequestWrites(tuple_keys=keys)
 
     def deletes_tuple_keys(
         self, on_missing: str | None = None
@@ -86,4 +88,6 @@ class ClientWriteRequest:
         if keys is None:
             return None
 
-        return WriteRequestDeletes(tuple_keys=keys, on_missing=on_missing)
+        if on_missing is not None:
+            return WriteRequestDeletes(tuple_keys=keys, on_missing=on_missing)
+        return WriteRequestDeletes(tuple_keys=keys)
