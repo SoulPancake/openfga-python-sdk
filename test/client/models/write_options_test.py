@@ -24,12 +24,6 @@ from openfga_sdk.client.models.write_transaction_opts import WriteTransactionOpt
 class TestClientWriteOptions(unittest.TestCase):
     """Test for ClientWriteOptions"""
 
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
-
     def test_client_write_options_init_with_no_params(self):
         """Test ClientWriteOptions initialization with no parameters"""
         options = ClientWriteOptions()
@@ -118,12 +112,6 @@ class TestClientWriteOptions(unittest.TestCase):
 class TestWriteTransactionOpts(unittest.TestCase):
     """Test for WriteTransactionOpts"""
 
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
-
     def test_write_transaction_opts_init_defaults(self):
         """Test WriteTransactionOpts initialization with default values"""
         opts = WriteTransactionOpts()
@@ -188,12 +176,6 @@ class TestWriteTransactionOpts(unittest.TestCase):
 
 class TestConflictOptions(unittest.TestCase):
     """Test for ConflictOptions"""
-
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
 
     def test_conflict_options_init_defaults(self):
         """Test ConflictOptions initialization with default values"""
@@ -305,12 +287,6 @@ class TestConflictOptions(unittest.TestCase):
 
 class TestConflictEnums(unittest.TestCase):
     """Test for Conflict Enums"""
-
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
 
     def test_client_write_request_on_duplicate_writes_error_value(self):
         """Test ClientWriteRequestOnDuplicateWrites.ERROR value"""
