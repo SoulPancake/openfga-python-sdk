@@ -1026,7 +1026,8 @@ class TestOpenFgaClient(IsolatedAsyncioTestCase):
                                 "relation": "reader",
                                 "user": "user:81684243-9356-4421-8fbf-a4f8d36aa31d",
                             },
-                        ]
+                        ],
+                        "on_duplicate": "error",
                     },
                     "authorization_model_id": "01G5JAVJ41T49E9TT3SKVS7X1J",
                 },
@@ -1071,7 +1072,10 @@ class TestOpenFgaClient(IsolatedAsyncioTestCase):
                                 "relation": "reader",
                                 "user": "user:81684243-9356-4421-8fbf-a4f8d36aa31b",
                             }
-                        ]
+                        ],
+                        "on_missing": "error",
+                        "on_missing": "error",
+                        "on_missing": "error",
                     },
                     "authorization_model_id": "01G5JAVJ41T49E9TT3SKVS7X1J",
                 },
@@ -1171,7 +1175,8 @@ class TestOpenFgaClient(IsolatedAsyncioTestCase):
                                 "relation": "reader",
                                 "user": "user:81684243-9356-4421-8fbf-a4f8d36aa31b",
                             }
-                        ]
+                        ],
+                        "on_duplicate": "error"
                     },
                     "authorization_model_id": "01G5JAVJ41T49E9TT3SKVS7X1J",
                 },
@@ -1192,7 +1197,8 @@ class TestOpenFgaClient(IsolatedAsyncioTestCase):
                                 "relation": "reader",
                                 "user": "user:81684243-9356-4421-8fbf-a4f8d36aa31c",
                             }
-                        ]
+                        ],
+                        "on_duplicate": "error"
                     },
                     "authorization_model_id": "01G5JAVJ41T49E9TT3SKVS7X1J",
                 },
@@ -1213,7 +1219,8 @@ class TestOpenFgaClient(IsolatedAsyncioTestCase):
                                 "relation": "reader",
                                 "user": "user:81684243-9356-4421-8fbf-a4f8d36aa31d",
                             }
-                        ]
+                        ],
+                        "on_duplicate": "error"
                     },
                     "authorization_model_id": "01G5JAVJ41T49E9TT3SKVS7X1J",
                 },
@@ -1313,7 +1320,8 @@ class TestOpenFgaClient(IsolatedAsyncioTestCase):
                                 "relation": "reader",
                                 "user": "user:81684243-9356-4421-8fbf-a4f8d36aa31b",
                             }
-                        ]
+                        ],
+                        "on_duplicate": "error"
                     },
                     "authorization_model_id": "01G5JAVJ41T49E9TT3SKVS7X1J",
                 },
@@ -1334,7 +1342,8 @@ class TestOpenFgaClient(IsolatedAsyncioTestCase):
                                 "relation": "reader",
                                 "user": "user:81684243-9356-4421-8fbf-a4f8d36aa31c",
                             }
-                        ]
+                        ],
+                        "on_duplicate": "error"
                     },
                     "authorization_model_id": "01G5JAVJ41T49E9TT3SKVS7X1J",
                 },
@@ -1355,7 +1364,8 @@ class TestOpenFgaClient(IsolatedAsyncioTestCase):
                                 "relation": "reader",
                                 "user": "user:81684243-9356-4421-8fbf-a4f8d36aa31d",
                             }
-                        ]
+                        ],
+                        "on_duplicate": "error"
                     },
                     "authorization_model_id": "01G5JAVJ41T49E9TT3SKVS7X1J",
                 },
@@ -1459,7 +1469,8 @@ class TestOpenFgaClient(IsolatedAsyncioTestCase):
                                 "relation": "reader",
                                 "user": "user:81684243-9356-4421-8fbf-a4f8d36aa31c",
                             },
-                        ]
+                        ],
+                        "on_duplicate": "error"
                     },
                     "authorization_model_id": "01G5JAVJ41T49E9TT3SKVS7X1J",
                 },
@@ -1480,7 +1491,8 @@ class TestOpenFgaClient(IsolatedAsyncioTestCase):
                                 "relation": "reader",
                                 "user": "user:81684243-9356-4421-8fbf-a4f8d36aa31d",
                             }
-                        ]
+                        ],
+                        "on_duplicate": "error"
                     },
                     "authorization_model_id": "01G5JAVJ41T49E9TT3SKVS7X1J",
                 },
@@ -1594,7 +1606,8 @@ class TestOpenFgaClient(IsolatedAsyncioTestCase):
                                 "relation": "reader",
                                 "user": "user:81684243-9356-4421-8fbf-a4f8d36aa31b",
                             }
-                        ]
+                        ],
+                        "on_duplicate": "error"
                     },
                     "authorization_model_id": "01G5JAVJ41T49E9TT3SKVS7X1J",
                 },
@@ -1615,7 +1628,8 @@ class TestOpenFgaClient(IsolatedAsyncioTestCase):
                                 "relation": "reader",
                                 "user": "user:81684243-9356-4421-8fbf-a4f8d36aa31c",
                             }
-                        ]
+                        ],
+                        "on_duplicate": "error"
                     },
                     "authorization_model_id": "01G5JAVJ41T49E9TT3SKVS7X1J",
                 },
@@ -1636,7 +1650,8 @@ class TestOpenFgaClient(IsolatedAsyncioTestCase):
                                 "relation": "reader",
                                 "user": "user:81684243-9356-4421-8fbf-a4f8d36aa31d",
                             }
-                        ]
+                        ],
+                        "on_duplicate": "error"
                     },
                     "authorization_model_id": "01G5JAVJ41T49E9TT3SKVS7X1J",
                 },
@@ -1690,7 +1705,9 @@ class TestOpenFgaClient(IsolatedAsyncioTestCase):
                                 "relation": "reader",
                                 "user": "user:81684243-9356-4421-8fbf-a4f8d36aa31b",
                             }
-                        ]
+                        ],
+                        "on_missing": "error",
+                        "on_missing": "error"
                     },
                     "authorization_model_id": "01G5JAVJ41T49E9TT3SKVS7X1J",
                 },
@@ -1753,7 +1770,8 @@ class TestOpenFgaClient(IsolatedAsyncioTestCase):
                                 "relation": "reader",
                                 "user": "user:81684243-9356-4421-8fbf-a4f8d36aa31d",
                             },
-                        ]
+                        ],
+                        "on_duplicate": "error"
                     },
                     "authorization_model_id": "01G5JAVJ41T49E9TT3SKVS7X1J",
                 },
@@ -1816,7 +1834,9 @@ class TestOpenFgaClient(IsolatedAsyncioTestCase):
                                 "relation": "reader",
                                 "user": "user:81684243-9356-4421-8fbf-a4f8d36aa31d",
                             },
-                        ]
+                        ],
+                        "on_missing": "error",
+                        "on_missing": "error"
                     },
                     "authorization_model_id": "01G5JAVJ41T49E9TT3SKVS7X1J",
                 },
@@ -1872,7 +1892,8 @@ class TestOpenFgaClient(IsolatedAsyncioTestCase):
                                 "relation": "reader",
                                 "object": "document:2021-budget",
                             }
-                        ]
+                        ],
+                        "on_duplicate": "error"
                     },
                     "authorization_model_id": "01G5JAVJ41T49E9TT3SKVS7X1J",
                 },
@@ -4076,6 +4097,8 @@ class TestClientConfigurationHeaders:
                                 "user": "user:81684243-9356-4421-8fbf-a4f8d36aa31b",
                             },
                         ],
+                        "on_missing": "error",
+                        "on_missing": "error",
                         "on_missing": "ignore",
                     },
                     "authorization_model_id": "01G5JAVJ41T49E9TT3SKVS7X1J",
@@ -4153,6 +4176,8 @@ class TestClientConfigurationHeaders:
                                 "user": "user:81684243-9356-4421-8fbf-a4f8d36aa31c",
                             },
                         ],
+                        "on_missing": "error",
+                        "on_missing": "error",
                         "on_missing": "ignore",
                     },
                     "authorization_model_id": "01G5JAVJ41T49E9TT3SKVS7X1J",
