@@ -36,7 +36,7 @@ from openfga_sdk.client.models.write_conflict_opts import (
     ConflictOptions,
 )
 from openfga_sdk.client.models.write_request import ClientWriteRequest
-from openfga_sdk.exceptions import FgaValidationException
+from openfga_sdk.exceptions import ApiException
 from openfga_sdk.models.create_store_request import CreateStoreRequest
 
 
@@ -93,7 +93,7 @@ async def demonstrate_duplicate_writes_error(openfga: OpenFgaClient):
     try:
         await openfga.write_tuples([tuple_to_write])
         print("  ERROR: Should have failed but didn't!")
-    except FgaValidationException as e:
+    except ApiException as e:
         print(f"  Expected error occurred: {type(e).__name__}")
         print(f"  This is the default behavior when writing duplicate tuples.")
 
@@ -150,7 +150,7 @@ async def demonstrate_missing_deletes_error(openfga: OpenFgaClient):
     try:
         await openfga.delete_tuples([tuple_to_delete])
         print("  ERROR: Should have failed but didn't!")
-    except FgaValidationException as e:
+    except ApiException as e:
         print(f"  Expected error occurred: {type(e).__name__}")
         print(f"  This is the default behavior when deleting non-existent tuples.")
 
@@ -259,7 +259,7 @@ async def demonstrate_explicit_error_mode(openfga: OpenFgaClient):
     try:
         await openfga.write_tuples([tuple_to_write], options)
         print("  ERROR: Should have failed but didn't!")
-    except FgaValidationException as e:
+    except ApiException as e:
         print(f"  Expected error occurred: {type(e).__name__}")
         print(f"  This demonstrates that ERROR mode is the default behavior.")
 
