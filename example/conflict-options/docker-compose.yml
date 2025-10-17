@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:16
@@ -18,6 +16,20 @@ services:
       timeout: 5s
       retries: 5
 
+  migrate:
+    image: openfga/openfga:v1.10.0
+    container_name: openfga-migrate
+    environment:
+      - OPENFGA_DATASTORE_ENGINE=postgres
+      - OPENFGA_DATASTORE_URI=postgres://postgres:password@postgres:5432/openfga?sslmode=disable
+    networks:
+      - openfga
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: migrate
+    restart: on-failure
+
   openfga:
     image: openfga/openfga:v1.10.0
     container_name: openfga
@@ -34,6 +46,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
     command: run
     healthcheck:
       test: ["CMD", "wget", "--spider", "http://localhost:8080/healthz"]

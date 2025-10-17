@@ -18,7 +18,25 @@ OpenFGA v1.10.0 introduced support for handling duplicate writes and missing del
 
 - Python 3.10 or higher
 - Docker and Docker Compose
-- OpenFGA Python SDK installed
+- OpenFGA Python SDK installed (see Installation section below)
+
+## Installation
+
+Install the OpenFGA Python SDK from the repository root:
+
+```bash
+# From the repository root
+pip install -e .
+
+# Or from PyPI
+pip install openfga-sdk>=0.9.7
+```
+
+For systems with network issues, you can also install system packages:
+```bash
+# Ubuntu/Debian
+sudo apt-get install python3-aiohttp python3-dateutil
+```
 
 ## Quick Start
 
