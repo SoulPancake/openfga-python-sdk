@@ -26,9 +26,9 @@ The conflict options feature was introduced in OpenFGA v1.10.0 and provides two 
 - `WriteRequest` - Contains writes and deletes with their respective options
 
 **Location:**
-- `/openfga_sdk/models/write_request_writes.py`
-- `/openfga_sdk/models/write_request_deletes.py`
-- `/openfga_sdk/models/write_request.py`
+- `openfga_sdk/models/write_request_writes.py`
+- `openfga_sdk/models/write_request_deletes.py`
+- `openfga_sdk/models/write_request.py`
 
 ### ✅ Client Layer (OpenFgaClient)
 
@@ -39,24 +39,24 @@ The conflict options feature was introduced in OpenFGA v1.10.0 and provides two 
 - `ClientWriteOptions` - Contains conflict options along with other write options
 
 **Location:**
-- `/openfga_sdk/client/models/write_conflict_opts.py`
-- `/openfga_sdk/client/models/write_options.py`
+- `openfga_sdk/client/models/write_conflict_opts.py`
+- `openfga_sdk/client/models/write_options.py`
 
 **Implementation:**
-- Both async (`/openfga_sdk/client/client.py`) and sync (`/openfga_sdk/sync/client/client.py`) clients support conflict options
+- Both async (`openfga_sdk/client/client.py`) and sync (`openfga_sdk/sync/client/client.py`) clients support conflict options
 - Options are passed through `_write_with_transaction` method
 - Properly converts enum values to string values for API calls
 
 ### ✅ Tests
 
 **Async Client Tests:**
-Location: `/test/client/client_test.py`
+Location: `test/client/client_test.py`
 - `test_write_with_conflict_options_ignore_duplicates` - Tests IGNORE for duplicate writes
 - `test_write_with_conflict_options_ignore_missing_deletes` - Tests IGNORE for missing deletes
 - `test_write_with_conflict_options_both` - Tests both options together
 
 **Sync Client Tests:**
-Location: `/test/sync/client/client_test.py`
+Location: `test/sync/client/client_test.py`
 - `test_sync_write_with_conflict_options_ignore_duplicates` - Tests IGNORE for duplicate writes
 - `test_sync_write_with_conflict_options_ignore_missing_deletes` - Tests IGNORE for missing deletes
 - `test_sync_write_with_conflict_options_both` - Tests both options together
@@ -76,7 +76,7 @@ Location: `/test/sync/client/client_test.py`
 
 ### ✅ Example Implementation
 
-**Location:** `/example/conflict-options/`
+**Location:** `example/conflict-options/`
 
 **Files Created:**
 1. `conflict_options_example.py` - Comprehensive example demonstrating all 8 permutations
@@ -84,7 +84,7 @@ Location: `/test/sync/client/client_test.py`
 3. `Makefile` - Quick commands to start, stop, and run the demo
 4. `README.md` - Complete documentation for the example
 5. `requirements.txt` - Dependencies specification
-6. `test_structure.py` - Validation test for example structure
+6. `test_structure.py` - Validation test verifying docker-compose services, Makefile targets, example script components, and README sections
 
 **Test Scenarios (8 total):**
 1. Duplicate writes with ERROR (default)
@@ -217,7 +217,7 @@ Beyond the requirements, the implementation includes:
 
 ## Notes
 
-- Requires OpenFGA server v1.10.0 or later
+- Requires OpenFGA server v1.10.0 or higher (minimum version: v1.10.0)
 - Default behavior (no options specified) returns errors for both duplicates and missing deletes
 - Both async and sync clients have identical API
 - Example creates temporary store and cleans up automatically
