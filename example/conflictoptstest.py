@@ -3,13 +3,11 @@
 
 """
 Python SDK for OpenFGA - Conflict Options Example
-
 API version: 1.x
 Website: https://openfga.dev
 Documentation: https://openfga.dev/docs
 Support: https://openfga.dev/community
 License: [Apache-2.0](https://github.com/openfga/python-sdk/blob/main/LICENSE)
-
 This example demonstrates all permutations of conflict options:
 - on_duplicate_writes: ERROR, IGNORE
 - on_missing_deletes: ERROR, IGNORE
@@ -81,7 +79,17 @@ class ConflictOptionsDemo:
                             "viewer": Userset(this={}),
                             "editor": Userset(this={}),
                         },
-                    ),
+                        metadata={
+                            "relations": {
+                                "editor": {
+                                    "directly_related_user_types": [{"type": "user"}]
+                                },
+                                "viewer": {
+                                    "directly_related_user_types": [{"type": "user"}]
+                                },
+                            }
+                        }
+                    )
                 ],
             )
         )
@@ -99,6 +107,55 @@ class ConflictOptionsDemo:
             await self.client.delete_store()
             print("   ✓ Store deleted")
             await self.client.close()
+
+    async def demo_default_duplicate_write(self):
+        """Test default behavior for duplicate write (should error)."""
+        print("\n" + "=" * 80)
+        print("Test 9: Default Duplicate Write (no conflict option, expect ERROR)")
+        print("=" * 80)
+
+        tuple_to_write = ClientTuple(
+            user="user:lucas",
+            relation="viewer",
+            object="document:test12",
+        )
+
+        # First write - should succeed
+        print("\n1. Writing tuple for the first time...")
+        body = ClientWriteRequest(writes=[tuple_to_write])
+        response = await self.client.write(body)
+        print(f"   ✓ First write succeeded")
+
+        # Second write - should fail with error
+        print("\n2. Writing the same tuple again (expecting error)...")
+        try:
+            await self.client.write(body)
+            print("   ✗ ERROR: Should have failed but succeeded!")
+        except Exception as e:
+            print(f"   ✓ Got expected error: {type(e).__name__}")
+            print(f"      Message: {str(e)[:100]}...")
+
+    async def demo_default_missing_delete(self):
+        """Test default behavior for missing delete (should error)."""
+        print("\n" + "=" * 80)
+        print("Test 10: Default Missing Delete (no conflict option, expect ERROR)")
+        print("=" * 80)
+
+        tuple_to_delete = ClientTuple(
+            user="user:mia",
+            relation="viewer",
+            object="document:test13",
+        )
+
+        # Attempt to delete non-existent tuple - should fail with error
+        print("\n1. Deleting a tuple that doesn't exist (expecting error)...")
+        body = ClientWriteRequest(deletes=[tuple_to_delete])
+        try:
+            await self.client.write(body)
+            print("   ✗ ERROR: Should have failed but succeeded!")
+        except Exception as e:
+            print(f"   ✓ Got expected error: {type(e).__name__}")
+            print(f"      Message: {str(e)[:100]}...")
 
     async def demo_duplicate_write_error(self):
         """Demonstrate duplicate write with ERROR option (default behavior)."""
@@ -381,6 +438,8 @@ class ConflictOptionsDemo:
             await self.demo_both_error()
             await self.demo_mixed_ignore_duplicate_error_missing()
             await self.demo_mixed_error_duplicate_ignore_missing()
+            await self.demo_default_duplicate_write() # for defaults
+            await self.demo_default_missing_delete() ## ^ samee
 
             print("\n" + "=" * 80)
             print("Summary")
@@ -409,7 +468,7 @@ async def main():
     """Main entry point for the demo."""
     # Get API URL from environment or use default
     api_url = os.getenv("FGA_API_URL", "http://localhost:8080")
-    
+
     print("\n" + "=" * 80)
     print("OpenFGA Conflict Options Demonstration")
     print("=" * 80)
@@ -418,7 +477,7 @@ async def main():
     print("  - on_duplicate_writes: ERROR, IGNORE")
     print("  - on_missing_deletes: ERROR, IGNORE")
     print("\nTotal test scenarios: 8")
-    
+
     demo = ConflictOptionsDemo(api_url=api_url)
     await demo.run_all_demos()
 
