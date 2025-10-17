@@ -1,0 +1,5 @@
+# OpenFGA Python SDK
+# Install from the repository root with: pip install -e ../../
+# Or install from PyPI with: pip install openfga-sdk>=0.9.7
+
+openfga-sdk>=0.9.7
