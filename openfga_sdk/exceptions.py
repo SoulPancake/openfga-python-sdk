@@ -172,10 +172,7 @@ class ApiException(OpenApiException):
 
     @property
     def parsed_exception(self):
-        raise AttributeError(
-            "parsed_exception is not directly accessible. "
-            "Use e.code, e.error_message, e.request_id instead."
-        )
+        return self._parsed_exception
 
     @parsed_exception.setter
     def parsed_exception(self, content):
