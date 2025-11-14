@@ -158,18 +158,27 @@ All `ApiException` instances now have these methods:
 
 ## Backward Compatibility
 
-The convenience properties and helper methods are new additions. Existing code using header dictionaries continues to work:
+**All changes are 100% backward compatible!** This is a purely additive change - no breaking changes whatsoever.
+
+Existing code continues to work exactly as before:
 
 ```python
-# Old code still works
+# All old patterns still work!
 try:
     client.check(...)
 except ApiException as e:
-    request_id = e.header.get('fga-request-id')  # Still works!
-    store_id = e.header.get('store_id')  # Still works!
+    # Old way - still works perfectly
+    code = e.parsed_exception.code if e.parsed_exception else None
+    message = e.parsed_exception.message if e.parsed_exception else None
+    request_id = e.header.get('fga-request-id')
+
+    # New way - convenience properties (optional)
+    code = e.code
+    message = e.error_message
+    request_id = e.request_id
 ```
 
-**Note:** Direct access to `parsed_exception` has been intentionally hidden to encourage using the cleaner convenience properties (`e.code`, `e.error_message`, etc.).
+**You can mix and match!** Use old code, new code, or both together.
 
 ## Testing
 

@@ -169,7 +169,6 @@ class ApiClient:
         start = float(time.time())
 
         if not _operation_name and _telemetry_attributes:
-            from openfga_sdk.telemetry.attributes import TelemetryAttributes
             _operation_name = _telemetry_attributes.get(
                 TelemetryAttributes.fga_client_request_method
             )
