@@ -107,15 +107,28 @@ Authorization Model ID: 01GYYY...
 
 ### 4. Operation Context
 
-Errors now track which operation failed, making debugging much easier.
+Errors now track which operation failed, making debugging much easier. Operation names are **automatically extracted** from telemetry attributes - no manual configuration needed!
 
 ```python
 try:
-    client.check(...)
+    await client.check(...)
 except ApiException as e:
     print(f"Operation '{e.operation_name}' failed")
-    # Output: Operation 'Check' failed
+    # Output: Operation 'check' failed
+
+try:
+    await client.write(...)
+except ApiException as e:
+    print(f"Operation '{e.operation_name}' failed")
+    # Output: Operation 'write' failed
 ```
+
+**How it works:**
+- The auto-generated `open_fga_api.py` passes telemetry attributes to every call
+- These attributes include `fga_client_request_method` (e.g., "check", "write")
+- `api_client.py` automatically extracts the operation name from telemetry
+- All exceptions get the operation name set automatically
+- No changes needed to generated code!
 
 ## Available Properties
 
@@ -128,7 +141,7 @@ All `ApiException` instances now have these properties:
 | `request_id` | `str \| None` | FGA request ID for tracing |
 | `store_id` | `str \| None` | Store ID context |
 | `authorization_model_id` | `str \| None` | Authorization model ID context |
-| `operation_name` | `str \| None` | Operation that failed (e.g., "Check", "Write") |
+| `operation_name` | `str \| None` | Operation that failed - auto-extracted from telemetry (e.g., "check", "write", "expand") |
 
 ## Available Helper Methods
 
