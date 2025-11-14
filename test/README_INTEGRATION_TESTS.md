@@ -45,20 +45,22 @@ docker compose -f docker-compose.integration-test.yml down
 The integration tests showcase the following improvements to error handling:
 
 ### 1. **Convenience Properties**
-Instead of nested access patterns:
+Instead of using header dictionaries:
 ```python
 # OLD WAY
-code = e.parsed_exception.code if e.parsed_exception else None
-message = e.parsed_exception.message if e.parsed_exception else None
 request_id = e.header.get('fga-request-id')
+store_id = e.header.get('store_id')
+model_id = e.header.get('openfga_authorization_model_id')
 ```
 
 Now you can use direct properties:
 ```python
 # NEW WAY
 code = e.code
-message = e.error_message
+error_message = e.error_message
 request_id = e.request_id
+store_id = e.store_id
+authorization_model_id = e.authorization_model_id
 ```
 
 ### 2. **Helper Methods**

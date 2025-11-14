@@ -266,21 +266,21 @@ class IntegrationErrorHandlingTest(unittest.TestCase):
                 )
             except ApiException as e:
                 print("\n=== Old vs New Access Patterns ===")
-                print("\nOLD WAY (verbose):")
-                print(f"  code = e.parsed_exception.code if e.parsed_exception else None")
-                print(f"  Result: {e.parsed_exception.code if e.parsed_exception else None}")
-                print(f"  message = e.parsed_exception.message if e.parsed_exception else None")
-                print(f"  Result: {e.parsed_exception.message if e.parsed_exception else None}")
+                print("\nOLD WAY (using header dict):")
                 print(f"  request_id = e.header.get('fga-request-id')")
                 print(f"  Result: {e.header.get('fga-request-id')}")
+                print(f"  store_id = e.header.get('store_id')")
+                print(f"  Result: {e.header.get('store_id')}")
 
-                print("\nNEW WAY (convenient):")
+                print("\nNEW WAY (convenient properties):")
                 print(f"  code = e.code")
                 print(f"  Result: {e.code}")
-                print(f"  message = e.error_message")
+                print(f"  error_message = e.error_message")
                 print(f"  Result: {e.error_message}")
                 print(f"  request_id = e.request_id")
                 print(f"  Result: {e.request_id}")
+                print(f"  store_id = e.store_id")
+                print(f"  Result: {e.store_id}")
 
                 print("\nOLD ERROR STRING:")
                 old_style = f"({e.status})\nReason: {e.reason}\nHTTP response body: (would show raw JSON)"

@@ -180,9 +180,6 @@ class ErrorHandlingImprovementsTest(unittest.TestCase):
         )
         e.parsed_exception = error_response
 
-        self.assertEqual(e.parsed_exception.code, "validation_error")
-        self.assertEqual(e.parsed_exception.message, "Test error")
-
         self.assertEqual(e.code, "validation_error")
         self.assertEqual(e.error_message, "Test error")
 

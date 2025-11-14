@@ -15,12 +15,11 @@ Instead of nested access patterns, errors now provide direct property access.
 try:
     client.check(...)
 except ApiException as e:
-    # Verbose nested access
-    code = e.parsed_exception.code if e.parsed_exception else None
-    message = e.parsed_exception.message if e.parsed_exception else None
+    # Verbose header dictionary access
     request_id = e.header.get('fga-request-id')
     store_id = e.header.get('store_id')
     model_id = e.header.get('openfga_authorization_model_id')
+    # Error details not easily accessible
 ```
 
 #### After (New Way)
@@ -159,17 +158,18 @@ All `ApiException` instances now have these methods:
 
 ## Backward Compatibility
 
-All changes are **fully backward compatible**. Existing code continues to work without modifications:
+The convenience properties and helper methods are new additions. Existing code using header dictionaries continues to work:
 
 ```python
 # Old code still works
 try:
     client.check(...)
 except ApiException as e:
-    if e.parsed_exception:
-        code = e.parsed_exception.code  # Still works!
     request_id = e.header.get('fga-request-id')  # Still works!
+    store_id = e.header.get('store_id')  # Still works!
 ```
+
+**Note:** Direct access to `parsed_exception` has been intentionally hidden to encourage using the cleaner convenience properties (`e.code`, `e.error_message`, etc.).
 
 ## Testing
 
@@ -260,12 +260,12 @@ No migration needed! But you can improve your existing code:
 
 ### Quick Wins
 
-1. **Replace nested access with properties:**
+1. **Use convenience properties instead of header dict:**
    ```python
    # Before
-   code = e.parsed_exception.code if e.parsed_exception else None
+   request_id = e.header.get('fga-request-id')
    # After
-   code = e.code
+   request_id = e.request_id
    ```
 
 2. **Use helper methods instead of type checks:**
@@ -303,11 +303,11 @@ No migration needed! But you can improve your existing code:
 
 ### Design Principles
 
-- **Backward Compatibility:** All existing code continues to work
-- **No Breaking Changes:** Only additive changes
+- **Clean API:** Direct access to `parsed_exception` is hidden to encourage using convenience properties
 - **Pythonic:** Uses properties and methods, not nested data structures
 - **Type Safe:** All properties and methods properly typed
 - **Well Tested:** 17 unit tests + integration tests
+- **Internal Compatibility:** api_client can still set `parsed_exception` internally
 
 ## Benefits
 
