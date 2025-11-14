@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  openfga:
+    image: openfga/openfga:latest
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+      - "3000:3000"
+    command: run
+    environment:
+      - OPENFGA_DATASTORE_ENGINE=memory
+      - OPENFGA_LOG_FORMAT=json
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8080/healthz"]
+      interval: 5s
+      timeout: 3s
+      retries: 10

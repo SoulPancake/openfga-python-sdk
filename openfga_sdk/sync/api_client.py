@@ -161,10 +161,16 @@ class ApiClient:
         _telemetry_attributes: dict[TelemetryAttribute, str | bool | int | float]
         | None = None,
         _streaming: bool = False,
+        _operation_name: str | None = None,
     ):
         self.configuration.is_valid()
         config = self.configuration
         start = float(time.time())
+
+        if not _operation_name and _telemetry_attributes:
+            _operation_name = _telemetry_attributes.get(
+                TelemetryAttributes.fga_client_request_method
+            )
 
         # header parameters
         header_params = {**self.default_headers, **(header_params or {})}
@@ -314,6 +320,8 @@ class ApiClient:
                         json.loads(e.body), response_type
                     )
                     e.body = None
+                if _operation_name:
+                    e.operation_name = _operation_name
                 raise e
             except ApiException as e:
                 e.body = e.body.decode("utf-8")
@@ -323,6 +331,9 @@ class ApiClient:
                         json.loads(e.body), response_type
                     )
                     e.body = None
+
+                if _operation_name:
+                    e.operation_name = _operation_name
 
                 _telemetry_attributes = TelemetryAttributes.fromResponse(
                     response=e,
@@ -546,6 +557,7 @@ class ApiClient:
         _telemetry_attributes: dict[TelemetryAttribute, str | bool | int | float]
         | None = None,
         _streaming: bool = False,
+        _operation_name: str | None = None,
     ):
         """Makes the HTTP request (synchronous) and returns deserialized data.
 
@@ -608,6 +620,7 @@ class ApiClient:
                 _oauth2_client,
                 _telemetry_attributes,
                 _streaming,
+                _operation_name,
             )
 
         return self.pool.apply_async(
@@ -632,6 +645,7 @@ class ApiClient:
                 _oauth2_client,
                 _telemetry_attributes,
                 _streaming,
+                _operation_name,
             ),
         )
 

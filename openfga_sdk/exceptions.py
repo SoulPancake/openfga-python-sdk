@@ -116,7 +116,7 @@ class ApiKeyError(OpenApiException, KeyError):
 
 
 class ApiException(OpenApiException):
-    def __init__(self, status=None, reason=None, http_resp=None):
+    def __init__(self, status=None, reason=None, http_resp=None, operation_name=None):
         if http_resp:
             try:
                 headers = http_resp.headers.items()
@@ -138,63 +138,127 @@ class ApiException(OpenApiException):
             self._parsed_exception = None
             self.header = dict()
 
+        self.operation_name = operation_name
+
     def __str__(self):
-        """Custom error messages for exception"""
-        error_message = f"({self.status})\nReason: {self.reason}\n"
+        parts = []
+
+        if self.operation_name:
+            parts.append(f"Operation: {self.operation_name}")
+
+        parts.append(f"Status: {self.status}")
+
+        if self.code:
+            parts.append(f"Error Code: {self.code}")
+
+        if self.error_message:
+            parts.append(f"Message: {self.error_message}")
+        elif self.reason:
+            parts.append(f"Reason: {self.reason}")
+
+        if self.request_id:
+            parts.append(f"Request ID: {self.request_id}")
+
+        if self.store_id:
+            parts.append(f"Store ID: {self.store_id}")
+
+        if self.authorization_model_id:
+            parts.append(f"Authorization Model ID: {self.authorization_model_id}")
 
         if self.body:
-            error_message += f"HTTP response body: {self.body}\n"
+            parts.append(f"HTTP response body: {self.body}")
 
-        return error_message
+        return "\n".join(parts)
 
     @property
     def parsed_exception(self):
-        """
-        Return the parsed body of the exception
-        """
         return self._parsed_exception
 
     @parsed_exception.setter
     def parsed_exception(self, content):
-        """
-        Update the deserialized content
-        """
         self._parsed_exception = content
+
+    @property
+    def code(self):
+        if self._parsed_exception and hasattr(self._parsed_exception, "code"):
+            return self._parsed_exception.code
+        return None
+
+    @property
+    def error_message(self):
+        if self._parsed_exception and hasattr(self._parsed_exception, "message"):
+            return self._parsed_exception.message
+        return None
+
+    @property
+    def request_id(self):
+        return self.header.get(FGA_REQUEST_ID)
+
+    @property
+    def store_id(self):
+        return self.header.get("store_id")
+
+    @property
+    def authorization_model_id(self):
+        return self.header.get(OPENFGA_AUTHORIZATION_MODEL_ID)
+
+    def is_validation_error(self):
+        return isinstance(self, ValidationException) or (
+            self.code and "validation" in str(self.code).lower()
+        )
+
+    def is_not_found_error(self):
+        return isinstance(self, NotFoundException) or self.status == 404
+
+    def is_authentication_error(self):
+        return isinstance(self, (UnauthorizedException, AuthenticationError)) or self.status == 401
+
+    def is_authorization_error(self):
+        return isinstance(self, ForbiddenException) or self.status == 403
+
+    def is_rate_limit_error(self):
+        return isinstance(self, RateLimitExceededError) or self.status == 429
+
+    def is_server_error(self):
+        return isinstance(self, ServiceException) or (self.status and self.status >= 500)
+
+    def is_retryable(self):
+        return self.status in [429, 500, 502, 503, 504]
 
 
 class NotFoundException(ApiException):
-    def __init__(self, status=None, reason=None, http_resp=None):
-        super().__init__(status, reason, http_resp)
+    def __init__(self, status=None, reason=None, http_resp=None, operation_name=None):
+        super().__init__(status, reason, http_resp, operation_name)
 
 
 class UnauthorizedException(ApiException):
-    def __init__(self, status=None, reason=None, http_resp=None):
-        super().__init__(status, reason, http_resp)
+    def __init__(self, status=None, reason=None, http_resp=None, operation_name=None):
+        super().__init__(status, reason, http_resp, operation_name)
 
 
 class ForbiddenException(ApiException):
-    def __init__(self, status=None, reason=None, http_resp=None):
-        super().__init__(status, reason, http_resp)
+    def __init__(self, status=None, reason=None, http_resp=None, operation_name=None):
+        super().__init__(status, reason, http_resp, operation_name)
 
 
 class ServiceException(ApiException):
-    def __init__(self, status=None, reason=None, http_resp=None):
-        super().__init__(status, reason, http_resp)
+    def __init__(self, status=None, reason=None, http_resp=None, operation_name=None):
+        super().__init__(status, reason, http_resp, operation_name)
 
 
 class ValidationException(ApiException):
-    def __init__(self, status=None, reason=None, http_resp=None):
-        super().__init__(status, reason, http_resp)
+    def __init__(self, status=None, reason=None, http_resp=None, operation_name=None):
+        super().__init__(status, reason, http_resp, operation_name)
 
 
 class AuthenticationError(ApiException):
-    def __init__(self, status=None, reason=None, http_resp=None):
-        super().__init__(status, reason, http_resp)
+    def __init__(self, status=None, reason=None, http_resp=None, operation_name=None):
+        super().__init__(status, reason, http_resp, operation_name)
 
 
 class RateLimitExceededError(ApiException):
-    def __init__(self, status=None, reason=None, http_resp=None):
-        super().__init__(status, reason, http_resp)
+    def __init__(self, status=None, reason=None, http_resp=None, operation_name=None):
+        super().__init__(status, reason, http_resp, operation_name)
 
 
 def render_path(path_to_item):
