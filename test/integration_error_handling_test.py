@@ -105,12 +105,15 @@ class IntegrationErrorHandlingTest(unittest.TestCase):
                 self.assertIsNotNone(e.code, "Error should have code property")
                 self.assertIsNotNone(e.error_message, "Error should have error_message property")
                 self.assertIsNotNone(e.request_id, "Error should have request_id property")
+                self.assertIsNotNone(e.operation_name, "Error should have operation_name from telemetry")
+                self.assertEqual(e.operation_name, "check", "Operation name should be 'check'")
 
                 self.assertTrue(e.is_validation_error(), "Should be identified as validation error")
                 self.assertFalse(e.is_not_found_error(), "Should not be identified as not found error")
                 self.assertFalse(e.is_server_error(), "Should not be identified as server error")
 
                 error_str = str(e)
+                self.assertIn("Operation: check", error_str, "Error string should contain operation name")
                 self.assertIn("Status:", error_str, "Error string should contain status")
                 self.assertIn("Error Code:", error_str, "Error string should contain error code")
                 self.assertIn("Message:", error_str, "Error string should contain message")
@@ -118,6 +121,7 @@ class IntegrationErrorHandlingTest(unittest.TestCase):
 
                 print("\n=== Validation Error Example ===")
                 print(f"Direct property access:")
+                print(f"  - Operation Name: {e.operation_name}")
                 print(f"  - Error Code: {e.code}")
                 print(f"  - Message: {e.error_message}")
                 print(f"  - Request ID: {e.request_id}")
@@ -179,9 +183,12 @@ class IntegrationErrorHandlingTest(unittest.TestCase):
             except ApiException as e:
                 self.assertIsNotNone(e.code)
                 self.assertIsNotNone(e.error_message)
+                self.assertIsNotNone(e.operation_name)
+                self.assertEqual(e.operation_name, "write", "Operation name should be 'write'")
                 self.assertTrue(e.is_validation_error())
 
                 print("\n=== Invalid Relation Validation Error ===")
+                print(f"Operation: {e.operation_name}")
                 print(f"Error Code: {e.code}")
                 print(f"Message: {e.error_message}")
                 print(f"Request ID: {e.request_id}")
